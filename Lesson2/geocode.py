@@ -1,8 +1,9 @@
 import httplib2
 import json
+from api import *
 
 def getGeocodeLocation(inputString):
-	google_api_key = "PASTE_YOUR_KEY_HERE"
+	google_api_key = google_key()
 	locationString = inputString.replace(" ", "+")
 	url = ('https://maps.googleapis.com/maps/api/geocode/json?address=%s&key%s'% (locationString, google_api_key))
 	h = httplib2.Http()

@@ -26,8 +26,18 @@ class User(Base):
     def generate_auth_token(self, expiration=600):
         s = Serializer(secret_key, expires_in = expiration)
         return s.dumps({'id': self.id})
-
     #Add a method to verify auth tokens here
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(secret_key)
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None
+        except BadSignature:
+            return None
+        user_id = data['id']
+        return user_id
 
 class Product(Base):
     __tablename__ = 'product'
